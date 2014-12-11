@@ -54,7 +54,7 @@ def get():
 			seconds = 0
 			routeTitle = predictions.attrib['routeTitle']
 			pp.pprint("routeTitle: "+routeTitle)
-			if routeTitle not in routeTitles:
+			if routeTitle not in routeTitles: 
 				pass
 			else:
 				busses = []
