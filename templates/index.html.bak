@@ -1,0 +1,78 @@
+{% extends "bootstrap/base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+{% import "bootstrap/fixes.html" as fixes %}
+
+{% block content %}
+<style>
+.data{
+	padding: 1em;
+	background: #ccc;
+}
+.data:nth-child(odd){
+	background: #fff;
+}
+.header{
+	padding: 1em;
+	background: #eee;
+	font-weight:bold;
+	border-bottom: 1px solid #888;
+}
+.ten-minute{
+	color: green;
+}
+.five-minute{
+	color: purple;
+	font-weight:bold;
+}
+.one-minute { 
+	color: red;
+	font-weight:bold;
+}
+</style>
+<div class="container-fluid">
+  <h1>Hello, world!</h1>
+		<div class="row header">
+			<div class=col-sm-3>Stop Name</div>
+			<div class=col-sm-1>Stop ID</div>
+			<div class=col-sm-8>
+				<div class=row>
+					<div class=col-md-4>Bus Number</div>
+					<div class=col-md-6>Route Name</div>
+					<div class=col-md-2>Time</div>
+				</div>
+			</div>
+		</div>
+		{%for stops in data:%}
+		 <div class="row data">
+            <div class=col-sm-3>{{stops.stopTitle}}</div>
+			<div class=col-sm-1>{{stops.stopId}}</div>
+            <div class=col-sm-8>
+				{%for bus in stops.busses%}
+                	<div class=row>
+                   		<div class=col-md-4>{{bus["busNumber"]}}</div>
+                   		<div class=col-md-6>{{bus.route}}</div>
+                    	{%if bus.seconds > 3600%}
+							<div class="col-md-2">{{format_time(bus.seconds / 3600)}} hours</div>
+						{%elif bus.seconds < 3600 and bus.seconds > 600%}
+							<div class="col-md-2">{{format_time(bus.seconds / 60)}} minutes</div>
+						{%elif bus.seconds <= 600 and bus.seconds > 300%}
+							<div class="col-md-2 ten-minute">{{format_time(bus.seconds / 60)}} minutes</div>
+						{%elif bus.seconds <= 300 and bus.seconds > 60%}
+							<div class="col-md-2 five-minute">{{format_time(bus.seconds / 60)}} minutes</div>
+						{%elif bus.seconds <= 60%}
+							<div class=col-md-2 one-minute">{{format_time(bus.seconds)}} seconds</div>
+						{%endif%}
+							
+                	</div>
+				{%endfor%}
+            </div>
+        </div>
+		{%endfor%}	
+	</div>
+{% endblock %}
+
+{% block head %}
+{{super()}}
+{{fixes.ie8()}}
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+{% endblock %}

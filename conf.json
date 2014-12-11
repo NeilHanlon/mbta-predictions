@@ -1,0 +1,34 @@
+{
+    "baseurl": "http://webservices.nextbus.com/service/publicXMLFeed?command=predictions",
+    "a": "mbta",
+    "routes": [
+        {
+            "stopId": 64,
+            "routeTitles": [
+                "Silver Line SL4",
+                "Silver Line SL5"
+            ]
+        },
+        {
+            "stopId": 17862,
+            "routeTitles": [
+                "19",
+                "23",
+                "18"
+            ]
+        },
+        {
+            "stopId": 390,
+            "routeTitles": [
+                "all"
+            ]
+        },
+        {
+            "stopId": 407,
+            "routeTitles": [
+                "23",
+                "28"
+            ]
+        }
+    ]
+}
