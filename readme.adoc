@@ -1,0 +1,10 @@
+MBTA Predictions
+==============
+
+== Requirements
+
+- Python
+- pip
+- Flask
+- Flask-Bootstrap (https://pypi.python.org/pypi/Flask-Bootstrap)
+
