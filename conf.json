@@ -1,6 +1,37 @@
 {
     "baseurl": "http://webservices.nextbus.com/service/publicXMLFeed?command=predictions",
     "a": "mbta",
+    "locations": {
+        "home": [
+            {
+                "stopId": "390",
+                "count": 3,
+                "direction": "inbound"
+            },
+            {
+                "stopId": "407",
+                "count": 3,
+                "direction": "outbound"
+            },
+            {
+                "stopId": "64",
+                "count": 1,
+                "direction": "inbound"
+            }
+        ],
+        "secondary": [
+            {
+                "stopId": "17862",
+                "count": 3,
+                "direction": "inbound"
+            },
+            {
+                "stopId": "1799",
+                "count": 3,
+                "direction": "outbound"
+            }
+        ]
+    },
     "routes": [
         {
             "stopId": 64,
@@ -14,16 +45,16 @@
             "routeTitles": [
                 "19",
                 "23",
-                "18"
+                "28",
+                "8"
             ]
         },
         {
             "stopId": 390,
             "routeTitles": [
-                "14",
-				"19",
-				"28",
-				"23"
+                "19",
+                "28",
+                "23"
             ]
         },
         {
@@ -31,6 +62,13 @@
             "routeTitles": [
                 "23",
                 "28"
+            ]
+        },
+        {
+            "stopId": 1799,
+            "routeTitles": [
+                "8",
+                "19"
             ]
         }
     ]

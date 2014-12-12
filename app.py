@@ -1,36 +1,47 @@
 from flask import Flask, render_template
 from flask_bootstrap import Bootstrap
+from jinja2.ext import loopcontrols
+from jinja2 import Environment
 
 import pprint
 import xml.etree.ElementTree as ET
 import json
 import urllib2
 
+conf_file = open("conf.json")
+conf = json.load(conf_file)
+conf_file.close()
+
+locations = conf["locations"]
+
+pp = pprint.PrettyPrinter(indent = 4)
+
 app = Flask(__name__)
 
 def create_app(configfile=None):
+
 	app = Flask(__name__)
+	app.jinja_env.add_extension('jinja2.ext.loopcontrols')
 	Bootstrap(app)
 	
 	@app.context_processor
 	def utility_processor():
 		def format_time(unit):
 			return u'{:.2f}'.format(unit)
-		return dict(format_time=format_time)
+		def hasany(item, needle, iterable):
+			return any(d[item] == needle for d in iterable)
+		def hasnext(item,item2,needle,iterable):
+			return next((home[item] for home in iterable if home[item2] == needle), None)
+		return dict(format_time=format_time,hasany=hasany,hasnext=hasnext)
 	
 	@app.route("/")
 	def index():
-		return render_template('index.html',data=get())
+		return render_template('index.html',data=get(), location=locations["home"], directions=["inbound","outbound"])
 	
 	return app
 
 
 def get():
-	pp = pprint.PrettyPrinter(indent = 4)
-
-	conf_file = open("conf.json")
-	conf = json.load(conf_file)
-	conf_file.close()
 	baseUrl = conf["baseurl"]
 	service = conf["a"]
 
@@ -58,13 +69,14 @@ def get():
 				pass
 			else:
 				busses = []
+				seconds = []
 				stopTitle = predictions.attrib["stopTitle"]
 				pp.pprint("stop Title: " +stopTitle)
 				for prediction in predictions.iter('direction'):
 					title = prediction.attrib['title']
 					for direction in prediction.iter('prediction'):
-						seconds = int(direction.attrib['seconds'])
-						busses += [{"busNumber": routeTitle, "route": title,"seconds": seconds}]
+						seconds.append(int(direction.attrib['seconds']))
+					busses += [{"busNumber": routeTitle, "route": title,"seconds": seconds}]
 				if seconds:
 					routelist += [{"stopId": stopId,"stopTitle": stopTitle,  "busses": busses}]
 	with open('data.json','w') as out:
