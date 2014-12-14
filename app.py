@@ -20,11 +20,10 @@ locations = conf["locations"]
 pp = pprint.PrettyPrinter(indent = 4)
 
 app = Flask(__name__)
+app.jinja_env.add_extension('jinja2.ext.loopcontrols')
 
 def create_app(configfile=None):
 
-	app = Flask(__name__)
-	app.jinja_env.add_extension('jinja2.ext.loopcontrols')
 	Bootstrap(app)
 	
 	@app.context_processor
