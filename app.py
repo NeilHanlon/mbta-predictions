@@ -8,6 +8,9 @@ import xml.etree.ElementTree as ET
 import json
 import urllib2
 
+from time import strftime
+from datetime import datetime, timedelta
+
 conf_file = open("conf.json")
 conf = json.load(conf_file)
 conf_file.close()
@@ -26,17 +29,34 @@ def create_app(configfile=None):
 	
 	@app.context_processor
 	def utility_processor():
-		def format_time(unit):
+		def format_time2(unit):
 			return u'{:.2f}'.format(unit)
+		def format_time(unit):
+			sec = timedelta(seconds=int(unit))
+			d = datetime(1,1,1) + sec
+			retS = ""
+			if d.hour:
+				retS += str(d.hour)+":"
+			if d.minute:
+				retS += str(d.minute)+":"
+			if d.second:
+				retS += str(d.second)
+			return retS
 		def hasany(item, needle, iterable):
 			return any(d[item] == needle for d in iterable)
 		def hasnext(item,item2,needle,iterable):
 			return next((home[item] for home in iterable if home[item2] == needle), None)
-		return dict(format_time=format_time,hasany=hasany,hasnext=hasnext)
+		def getTime(format):
+			return strftime(format)
+		return dict(format_time=format_time,hasany=hasany,hasnext=hasnext,getTime=getTime)
 	
 	@app.route("/")
 	def index():
-		return render_template('index.html',data=get(), location=locations["home"], directions=["inbound","outbound"])
+		return render_template('index.html',data=get(), location=locations["home"], directions=["inbound","outbound","silver line"])
+
+	@app.route("/<location>")
+	def location(location):
+		return render_template('index.html',data=get(), location=locations[location],directions=["ruggles station","wentworth campus"])
 	
 	return app
 

@@ -16,19 +16,19 @@
             {
                 "stopId": "64",
                 "count": 1,
-                "direction": "inbound"
+                "direction": "silver line"
             }
         ],
         "secondary": [
             {
                 "stopId": "17862",
                 "count": 3,
-                "direction": "inbound"
+                "direction": "ruggles station"
             },
             {
                 "stopId": "1799",
                 "count": 3,
-                "direction": "outbound"
+                "direction": "wentworth campus"
             }
         ]
     },

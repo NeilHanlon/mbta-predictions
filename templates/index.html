@@ -28,14 +28,25 @@
 	font-weight: bold;
 }
 .five-minute{
-	color: burned-orange;
+	color: orange;
 	font-weight:bold;
 }
 .one-minute { 
-	color: #C50;
+	color: red;
 	font-weight:bold;
 }
+.clock{
+	background-color:#1e1e1e;
+	color:white;
+	font: bold 3em Helvetica;
+	padding: 3px;
+	float: right; 
+	clear:none;
+}
 </style>
+	<div class="clock">
+		{{getTime("%H:%M:%S")}}
+	</div>
 <div class="container-fluid">
 	{%for direction in directions%}
 		<h2>{{direction|title()}}</h2>
@@ -56,7 +67,7 @@
 							{%for seconds in bus.seconds[0:hasnext('count','stopId',stops.stopId|string(),location)]%}
 								<div class="row">
 			                    	{%if seconds > 3600%}
-										<div class="col-xs-12">{{format_time(seconds / 3600)}} hours</div>
+										<div class="col-xs-12">{{format_time(seconds / 3600)}} hour</div>
 									{%elif seconds < 3600 and seconds > 600%}
 										<div class="col-xs-12">{{format_time(seconds / 60)}} minutes</div>
 									{%elif seconds <= 600 and seconds > 300%}
@@ -74,7 +85,13 @@
 		    {%endif%}
 		{%endfor%}
 	{%endfor%}
+
 </div>
+<script>
+setTimeout(function(){
+   window.location.reload(1);
+}, 5000);
+</script>
 {% endblock %}
 
 {% block head %}
