@@ -19,11 +19,12 @@ locations = conf["locations"]
 
 pp = pprint.PrettyPrinter(indent = 4)
 
-app = Flask(__name__)
-app.jinja_env.add_extension('jinja2.ext.loopcontrols')
+app = None
 
 def create_app(configfile=None):
-
+	
+	app = Flask(__name__)
+	app.jinja_env.add_extension('jinja2.ext.loopcontrols')
 	Bootstrap(app)
 	
 	@app.context_processor
@@ -102,5 +103,6 @@ def get():
 		json.dump(routelist,out)
 	return routelist
 
+theApp = create_app()
 if __name__ == "__main__":
     create_app().run(debug = True, host='0.0.0.0')
