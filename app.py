@@ -53,7 +53,7 @@ def create_app(configfile=None):
 		def hasexclusions(busNumber,direction):
 			res = False
 			for exclude in exclusions:
-				if exclude['busNumber'] == int(busNumber):
+				if str(exclude['busNumber']) == busNumber:
 					if direction in exclude['directions']:
 						return True
 			return False
