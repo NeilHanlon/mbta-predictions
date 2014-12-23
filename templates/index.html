@@ -57,30 +57,32 @@
 			<div class=col-xs-2>Time</div>
 		</div>
 		{%for stops in data%}
-			{%if hasnext('direction','stopId',stops.stopId|string(),location) == direction and hasany('stopId',stops.stopId|string(),location) %}
+			{%if hasnext('direction','stopId',stops.stopId|string(),location) == direction and hasany('stopId',stops.stopId|string(),location)%}
 				{%for bus in stops.busses[0:hasnext('count','stopId',stops.stopId|string(),location)]%}
-					<div class="row data">
-						<div class="col-xs-2">{{bus["busNumber"]}}</div>
-						<div class="col-xs-4">{{bus.route}}</div>
-						<div class="col-xs-4">{{stops.stopTitle}}</div>
-						<div class="col-xs-2">
-							{%for seconds in bus.seconds[0:hasnext('count','stopId',stops.stopId|string(),location)]%}
-								<div class="row">
-			                    	{%if seconds > 3600%}
-										<div class="col-xs-12">{{format_time(seconds / 3600)}} hour</div>
-									{%elif seconds < 3600 and seconds > 600%}
-										<div class="col-xs-12">{{format_time(seconds / 60)}} minutes</div>
-									{%elif seconds <= 600 and seconds > 300%}
-										<div class="col-xs-12 ten-minute">{{format_time(seconds / 60)}} minutes</div>
-									{%elif seconds <= 300 and seconds > 60%}
-										<div class="col-xs-12 five-minute">{{format_time(seconds / 60)}} minutes</div>
-									{%elif seconds <= 60%}
-										<div class="col-xs-12 one-minute">{{format_time(seconds)}} seconds</div>
-									{%endif%}
-								</div>
-							{%endfor%}
-						</div>
-		           	</div>
+					{%if not hasexclusions(bus.busNumber, bus.route)%}
+						<div class="row data">
+							<div class="col-xs-2">{{bus["busNumber"]}}</div>
+							<div class="col-xs-4">{{bus.route}}</div>
+							<div class="col-xs-4">{{stops.stopTitle}}</div>
+							<div class="col-xs-2">
+								{%for seconds in bus.seconds[0:hasnext('count','stopId',stops.stopId|string(),location)]%}
+									<div class="row">
+				                    	{%if seconds > 3600%}
+											<div class="col-xs-12">{{format_time(seconds / 3600)}} hour</div>
+										{%elif seconds < 3600 and seconds > 600%}
+											<div class="col-xs-12">{{format_time(seconds / 60)}} minutes</div>
+										{%elif seconds <= 600 and seconds > 300%}
+											<div class="col-xs-12 ten-minute">{{format_time(seconds / 60)}} minutes</div>
+										{%elif seconds <= 300 and seconds > 60%}
+											<div class="col-xs-12 five-minute">{{format_time(seconds / 60)}} minutes</div>
+										{%elif seconds <= 60%}
+											<div class="col-xs-12 one-minute">{{format_time(seconds)}} seconds</div>
+										{%endif%}
+									</div>
+								{%endfor%}
+							</div>
+			           	</div>
+		           	{%endif%}
 				{%endfor%}
 		    {%endif%}
 		{%endfor%}

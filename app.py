@@ -16,8 +16,10 @@ conf = json.load(conf_file)
 conf_file.close()
 
 locations = conf["locations"]
+exclusions = conf["exclusions"]
 
 pp = pprint.PrettyPrinter(indent = 4)
+
 
 app = None
 
@@ -48,15 +50,21 @@ def create_app(configfile=None):
 			return next((home[item] for home in iterable if home[item2] == needle), None)
 		def getTime(format):
 			return strftime(format)
-		return dict(format_time=format_time,hasany=hasany,hasnext=hasnext,getTime=getTime)
+		def hasexclusions(busNumber,direction):
+			for exclude in exclusions:
+				if exclude['busNumber'] == busNumber:
+					if direction in exclude['directions']:
+						return True
+			return False
+		return dict(format_time=format_time,hasany=hasany,hasnext=hasnext,getTime=getTime,hasexclusions=hasexclusions)
 	
 	@app.route("/")
 	def index():
-		return render_template('index.html',data=get(), location=locations["home"], directions=["inbound","outbound","silver line"])
+		return render_template('index.html',data=get(), location=locations["home"], directions=["inbound","outbound","silver line"],exclusions=exclusions)
 
 	@app.route("/<location>")
 	def location(location):
-		return render_template('index.html',data=get(), location=locations[location],directions=["ruggles station","wentworth campus"])
+		return render_template('index.html',data=get(), location=locations[location],directions=["ruggles station","wentworth campus"],exclusions=exclusions)
 	
 	return app
 
@@ -84,14 +92,14 @@ def get():
 			title = ""
 			seconds = 0
 			routeTitle = predictions.attrib['routeTitle']
-			pp.pprint("routeTitle: "+routeTitle)
+			#pp.pprint("routeTitle: "+routeTitle)
 			if routeTitle not in routeTitles: 
 				pass
 			else:
 				busses = []
 				seconds = []
 				stopTitle = predictions.attrib["stopTitle"]
-				pp.pprint("stop Title: " +stopTitle)
+				#pp.pprint("stop Title: " +stopTitle)
 				for prediction in predictions.iter('direction'):
 					title = prediction.attrib['title']
 					for direction in prediction.iter('prediction'):

@@ -1,6 +1,23 @@
 {
     "baseurl": "http://webservices.nextbus.com/service/publicXMLFeed?command=predictions",
     "a": "mbta",
+    "exclusions": [
+        {
+            "busNumber": 23,
+            "directions": ["Dudley Square"]
+        },
+        {
+            "busNumber": 19,
+            "directions": [
+                "Louis Pasteur Ave via Fields Corner",
+                "Kenmore Station via Grove Hall & Ruggles Station"
+                ]
+        },
+        {
+            "busNumber": 23,
+            "directions": ["Franklin Park via Warren St"]
+        }
+    ],
     "locations": {
         "home": [
             {
