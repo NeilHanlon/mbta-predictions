@@ -51,8 +51,9 @@ def create_app(configfile=None):
 		def getTime(format):
 			return strftime(format)
 		def hasexclusions(busNumber,direction):
+			res = False
 			for exclude in exclusions:
-				if exclude['busNumber'] == busNumber:
+				if exclude['busNumber'] == int(busNumber):
 					if direction in exclude['directions']:
 						return True
 			return False
@@ -60,11 +61,11 @@ def create_app(configfile=None):
 	
 	@app.route("/")
 	def index():
-		return render_template('index.html',data=get(), location=locations["home"], directions=["inbound","outbound","silver line"],exclusions=exclusions)
+		return render_template('index.html',data=get(), location=locations["home"], directions=["inbound","outbound","silver line"])
 
 	@app.route("/<location>")
 	def location(location):
-		return render_template('index.html',data=get(), location=locations[location],directions=["ruggles station","wentworth campus"],exclusions=exclusions)
+		return render_template('index.html',data=get(), location=locations[location],directions=["ruggles station","wentworth campus"])
 	
 	return app
 
