@@ -4,7 +4,7 @@
     "exclusions": [
         {
             "busNumber": 23,
-            "directions": ["Dudley Square"]
+            "directions": ["Dudley Square","Franklin Park via Warren St"]
         },
         {
             "busNumber": 19,
@@ -14,8 +14,8 @@
                 ]
         },
         {
-            "busNumber": 23,
-            "directions": ["Franklin Park via Warren St"]
+            "busNumber": 8,
+            "directions": ["Harbor Point via UMass & South Bay Center"]
         }
     ],
     "locations": {
